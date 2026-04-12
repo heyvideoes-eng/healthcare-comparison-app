@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useAnimation, useScroll, useSpring } from 'framer-motion';
+import { motion, useAnimation, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import {
   Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend
@@ -29,7 +29,8 @@ const CustomCursor = () => {
         target.closest('.liquid-glass') ||
         target.closest('.hero-tag') ||
         target.closest('.flow-node') ||
-        target.closest('.qb-item')
+        target.closest('.qb-item') ||
+        target.closest('.hero-stat')
       ) {
         setIsHovering(true);
       } else {
@@ -132,9 +133,35 @@ const commonChartOptions = {
   }
 };
 
+const statContexts = {
+  lifeExpectancy: {
+    title: "Life Expectancy",
+    india: "70.8",
+    taiwan: "80.9",
+    unit: "yrs",
+    context: "India's life expectancy has improved from 63 in 2000, yet systemic inequities and rural-urban divides keep the average lower. Taiwan's universal access to advanced medical care allows it to match Western European longevity standards at a fraction of the cost."
+  },
+  populationCovered: {
+    title: "Population Covered",
+    india: "37",
+    taiwan: "99",
+    unit: "%",
+    context: "India relies on fragmented schemes like Ayushman Bharat targeting the poor, leaving hundreds of millions in the 'missing middle' uninsured. Taiwan implemented mandatory National Health Insurance in 1995, achieving 99.9% universal coverage almost overnight."
+  },
+  oopBurden: {
+    title: "Out-of-Pocket Burden",
+    india: "40",
+    taiwan: "12",
+    unit: "%",
+    context: "In India, paying directly out-of-pocket is a primary driver of medical impoverishment, forcing many to forego necessary care. Taiwan's single-payer system absorbs the vast majority of costs; copayments are nominal and capped for low-income citizens, ensuring financial immunity."
+  }
+};
+
 function App() {
   const { scrollYProgress } = useScroll();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeStatModal, setActiveStatModal] = useState(null);
+  const [hoveredMember, setHoveredMember] = useState(null);
   
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -205,29 +232,103 @@ function App() {
           </p>
           
           <div className="hero-stats">
-            <div className="hero-stat">
+            <motion.div 
+              className="hero-stat" 
+              onClick={() => setActiveStatModal('lifeExpectancy')} 
+              whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.05)' }} 
+              style={{cursor: 'pointer', borderRadius: '12px'}}
+            >
               <div className="stat-label">Life expectancy</div>
               <div className="hero-stat-vals">
                 <span className="stat-value text-india">70.8</span> <span className="stat-note">vs</span> <span className="stat-value text-taiwan">80.9</span>
                 <span className="stat-note" style={{marginLeft:'4px'}}>yrs</span>
               </div>
-            </div>
-            <div className="hero-stat">
+            </motion.div>
+            <motion.div 
+              className="hero-stat" 
+              onClick={() => setActiveStatModal('populationCovered')} 
+              whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.05)' }} 
+              style={{cursor: 'pointer', borderRadius: '12px'}}
+            >
               <div className="stat-label">Population covered</div>
               <div className="hero-stat-vals">
                 <span className="stat-value text-india">37</span> <span className="stat-note">vs</span> <span className="stat-value text-taiwan">99</span>
                 <span className="stat-note" style={{marginLeft:'4px'}}>%</span>
               </div>
-            </div>
-            <div className="hero-stat">
+            </motion.div>
+            <motion.div 
+              className="hero-stat" 
+              onClick={() => setActiveStatModal('oopBurden')} 
+              whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.05)' }} 
+              style={{cursor: 'pointer', borderRadius: '12px'}}
+            >
               <div className="stat-label">Out-of-pocket burden</div>
               <div className="hero-stat-vals">
                 <span className="stat-value text-india">40</span> <span className="stat-note">vs</span> <span className="stat-value text-taiwan">12</span>
                 <span className="stat-note" style={{marginLeft:'4px'}}>%</span>
               </div>
-            </div>
+            </motion.div>
           </div>
         </Reveal>
+
+        <AnimatePresence>
+          {activeStatModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: 'fixed',
+                top: 0, left: 0, right: 0, bottom: 0,
+                backgroundColor: 'rgba(0,0,0,0.85)',
+                backdropFilter: 'blur(10px)',
+                zIndex: 1000,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '1.5rem'
+              }}
+              onClick={() => setActiveStatModal(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 20, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.9, y: 20, opacity: 0 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                style={{
+                  background: 'var(--bg)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '16px',
+                  padding: '2.5rem',
+                  maxWidth: '500px',
+                  width: '100%',
+                  position: 'relative',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button 
+                  onClick={() => setActiveStatModal(null)}
+                  style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer' }}
+                >
+                  <X size={24} />
+                </button>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--text)', fontFamily: 'var(--serif)' }}>
+                  {statContexts[activeStatModal].title}
+                </h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', fontSize: '1.5rem' }}>
+                  <span className="text-india" style={{fontWeight: 'bold', textShadow: '0 0 15px rgba(255,90,95,0.4)'}}>{statContexts[activeStatModal].india}</span>
+                  <span style={{ color: 'var(--text3)', fontSize: '1rem' }}>vs</span>
+                  <span className="text-taiwan" style={{fontWeight: 'bold', textShadow: '0 0 15px rgba(0,229,255,0.4)'}}>{statContexts[activeStatModal].taiwan}</span>
+                  <span style={{ color: 'var(--text3)', fontSize: '1rem', marginLeft: '-0.5rem' }}>{statContexts[activeStatModal].unit}</span>
+                </div>
+                <p style={{ color: 'var(--text2)', lineHeight: '1.8', fontSize: '1.05rem', margin: 0 }}>
+                  {statContexts[activeStatModal].context}
+                </p>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       <div className="quickbar" id="quickbar">
@@ -742,40 +843,101 @@ function App() {
          </Reveal>
       </section>
 
-      <footer style={{ padding: '6rem 2rem 4rem', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '4rem', background: 'radial-gradient(ellipse at bottom, rgba(0, 229, 255, 0.05) 0%, transparent 70%)' }}>
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: 'var(--text)', marginBottom: '0.5rem' }}
-        >
-          Health care
-        </motion.h2>
-        <p style={{ color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.2em', fontSize: '0.85rem', marginBottom: '3.5rem' }}>
-          Group Project Members
-        </p>
+      <footer style={{ padding: '6rem 2rem 8rem', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '4rem', background: 'radial-gradient(ellipse at bottom, rgba(0, 229, 255, 0.05) 0%, transparent 70%)', position: 'relative', overflow: 'hidden' }}>
         
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', maxWidth: '800px', margin: '0 auto' }}>
-          {['Vanshika', 'Manasvi', 'Ananta', 'Rishi'].map((name, i) => (
-            <motion.div 
-              key={name}
-              whileHover={{ y: -5, scale: 1.05, boxShadow: '0 10px 30px -10px rgba(0,229,255,0.4)', borderColor: 'rgba(0,229,255,0.5)' }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 * i }}
-              className="qb-item"
-              style={{ padding: '1rem 2.5rem', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '30px', color: 'var(--text)', fontWeight: '500', letterSpacing: '0.05em', cursor: 'pointer', transition: 'border-color 0.3s, color 0.3s' }}
-            >
-              <span style={{ color: 'var(--taiwan)', marginRight: '0.5rem', opacity: 0.7 }}>//</span> 
-              {name}
-            </motion.div>
-          ))}
+        {/* Animated background glow that follows the hovered member or just pulses */}
+        <motion.div 
+          animate={{
+            opacity: hoveredMember ? 0.8 : 0.3,
+            scale: hoveredMember ? 1.2 : 1,
+          }}
+          transition={{ duration: 0.8 }}
+          style={{
+            position: 'absolute',
+            bottom: '-20%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '60vw',
+            height: '40vw',
+            background: 'radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, transparent 70%)',
+            pointerEvents: 'none',
+            zIndex: 0
+          }}
+        />
+
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.05, textShadow: '0 0 30px rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: 'var(--text)', marginBottom: '0.5rem', cursor: 'default' }}
+          >
+            Health care
+          </motion.h2>
+          <p style={{ color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.3em', fontSize: '0.85rem', marginBottom: '3.5rem', fontWeight: 'bold' }}>
+            Group Project Members
+          </p>
+          
+          <div 
+            style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem', maxWidth: '1200px', width: '100%', margin: '0 auto' }}
+            onMouseLeave={() => setHoveredMember(null)}
+          >
+            {['Vanshika Pandey', 'Manasvi Wadhwa', 'Ananta Dimri', 'Rishi Upadhyay'].map((name, i) => (
+              <motion.div 
+                key={name}
+                onMouseEnter={() => setHoveredMember(name)}
+                whileHover={{ 
+                  y: -10, 
+                  scale: 1.1, 
+                  boxShadow: '0 20px 40px -10px rgba(0,229,255,0.5)', 
+                  borderColor: 'rgba(0,229,255,0.8)',
+                  backgroundColor: 'rgba(0,229,255,0.08)'
+                }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ 
+                  delay: hoveredMember ? 0 : 0.1 * i, 
+                  type: 'spring', stiffness: 400, damping: 25 
+                }}
+                className="qb-item"
+                style={{ 
+                  padding: '1rem 3rem', 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: '1px solid rgba(255,255,255,0.08)', 
+                  borderRadius: '30px', 
+                  color: 'var(--text)', 
+                  fontWeight: '600', 
+                  letterSpacing: '0.05em', 
+                  cursor: 'pointer',
+                  opacity: hoveredMember && hoveredMember !== name ? 0.3 : 1,
+                  filter: hoveredMember && hoveredMember !== name ? 'blur(2px)' : 'blur(0px)',
+                  transition: 'opacity 0.4s ease, filter 0.4s ease, border-color 0.3s, background-color 0.3s' 
+                }}
+              >
+                {name}
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, type: 'spring' }}
+            style={{ marginTop: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: 'var(--text2)' }}
+          >
+            <div style={{ textAlign: 'center', letterSpacing: '0.05em' }}>
+              <p style={{ margin: 0, fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--text)' }}>Students of Designing</p>
+              <p style={{ margin: '0.3rem 0', color: 'var(--taiwan)', fontWeight: '500' }}>B.Des</p>
+              <p style={{ margin: 0, opacity: 0.8, fontSize: '0.95rem' }}>Graphic Era (Deemed to be University)</p>
+            </div>
+          </motion.div>
+
         </div>
-        
-        <p style={{ marginTop: '5rem', color: 'var(--text3)', fontSize: '0.8rem' }}>
-          Built by Itsallmerishi
-        </p>
       </footer>
     </>
   );
