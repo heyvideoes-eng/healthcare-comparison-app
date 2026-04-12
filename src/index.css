@@ -23,7 +23,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 80px; max-width: 100vw; overflow-x: hidden; }
+html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 80px; max-width: 100vw; }
 
 body { 
   font-family: var(--sans); 
@@ -50,11 +50,36 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--serif); font-weight: normal; }
 .global-glow {
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
-  background: 
-    radial-gradient(ellipse 60% 70% at 20% 40%, rgba(var(--india-rgb), 0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 70% at 80% 60%, rgba(var(--taiwan-rgb), 0.06) 0%, transparent 60%);
   pointer-events: none;
   z-index: -1;
+  overflow: hidden;
+  opacity: 0.8;
+}
+
+.global-glow::before,
+.global-glow::after {
+  content: '';
+  position: absolute;
+  top: -20%; right: -20%; bottom: -20%; left: -20%;
+  pointer-events: none;
+  animation: floatBackground 20s infinite alternate ease-in-out;
+}
+
+.global-glow::before {
+  background: radial-gradient(ellipse 50% 60% at 30% 40%, rgba(var(--india-rgb), 0.08) 0%, transparent 60%);
+  animation-duration: 25s;
+}
+
+.global-glow::after {
+  background: radial-gradient(ellipse 50% 60% at 70% 60%, rgba(var(--taiwan-rgb), 0.08) 0%, transparent 60%);
+  animation-direction: alternate-reverse;
+}
+
+@keyframes floatBackground {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-3%, 5%) scale(1.05); }
+  66% { transform: translate(5%, -3%) scale(0.95); }
+  100% { transform: translate(-2%, -5%) scale(1); }
 }
 
 /* Minimalist Scrollbar */

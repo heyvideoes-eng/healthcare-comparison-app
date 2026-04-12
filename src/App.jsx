@@ -162,6 +162,15 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeStatModal, setActiveStatModal] = useState(null);
   const [hoveredMember, setHoveredMember] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -186,7 +195,7 @@ function App() {
       <motion.div className="scroll-progress" style={{ scaleX }} />
       
       <motion.nav 
-        className="nav-container"
+        className={`nav-container ${isScrolled ? 'scrolled' : ''}`}
         initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <a href="#hero" onClick={(e) => handleNavClick(e, 'hero')} className="nav-brand">Healthcare Compared</a>
