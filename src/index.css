@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+:root {
+  /* THEME TOKENS - Premium Cinematic Dark */
+  --bg: #08080C;        /* Absolute deep space */
+  --bg2: #111116;       /* Slightly elevated surfaces */
+  --bg3: #1A1A22;       /* Emphasized accents */
+  
+  --india: #FF5A5F;     /* Luminous Coral Pink/Red */
+  --taiwan: #00E5FF;    /* Neon Cyan / Electric Blue */
+  --india-rgb: 255, 90, 95;
+  --taiwan-rgb: 0, 229, 255;
+  
+  --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.15);
+  
+  --text: #FFFFFF;      /* Clean pure white for readability */
+  --text2: #A1A8B2;     /* Cool metallic gray */
+  --text3: #6C7581;     /* Muted deep cool gray */
+  
+  --serif: 'DM Serif Display', serif;
+  --sans: 'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 80px; max-width: 100vw; overflow-x: hidden; }
+
+body { 
+  font-family: var(--sans); 
+  background: var(--bg); 
+  color: var(--text); 
+  line-height: 1.6; 
+  overflow-x: hidden; 
+  position: relative; 
+  min-height: 100vh;
+}
+
+/* Base Utility Classes */
+.text-india { color: var(--india); }
+.text-taiwan { color: var(--taiwan); }
+.bg-india { background: var(--india); }
+.bg-taiwan { background: var(--taiwan); }
+
+.border-india { border-color: var(--india); }
+.border-taiwan { border-color: var(--taiwan); }
+
+h1, h2, h3, h4, h5, h6 { font-family: var(--serif); font-weight: normal; }
+
+/* ── BACKGROUND GLOW ── */
+.global-glow {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: 
+    radial-gradient(ellipse 60% 70% at 20% 40%, rgba(var(--india-rgb), 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% 60%, rgba(var(--taiwan-rgb), 0.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Minimalist Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }
