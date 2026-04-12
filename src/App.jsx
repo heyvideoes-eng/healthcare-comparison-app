@@ -355,7 +355,7 @@ function App() {
           </div></Reveal>
         </div>
       </div>
-
+      
       <hr className="divider" />
 
       {/* 1. OVERVIEW */}
@@ -582,7 +582,7 @@ function App() {
                     <span className="stat-label" style={{display:'block'}}>Enrollment</span>
                     Voluntary / Means-tested
                   </motion.div>
-                </motion.div>
+                 </motion.div>
                 <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay: 1.2}} style={{marginTop: '1.5rem', background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '8px'}}>
                   <strong style={{color:'var(--india)', fontSize:'0.75rem', textTransform: 'uppercase', letterSpacing:'0.1em'}}>Core Outcome</strong>
                   <div style={{fontSize: '0.9rem', color: 'var(--text2)', marginTop: '0.3rem'}}>Inconsistent quality, High cost burden, Unequal access</div>
