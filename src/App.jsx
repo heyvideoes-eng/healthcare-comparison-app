@@ -136,8 +136,8 @@ const commonChartOptions = {
 const statContexts = {
   lifeExpectancy: {
     title: "Life Expectancy",
-    india: "70.8",
-    taiwan: "80.9",
+    india: "72.4",
+    taiwan: "80.77",
     unit: "yrs",
     context: "India's life expectancy has improved from 63 in 2000, yet systemic inequities and rural-urban divides keep the average lower. Taiwan's universal access to advanced medical care allows it to match Western European longevity standards at a fraction of the cost."
   },
@@ -249,7 +249,7 @@ function App() {
             >
               <div className="stat-label">Life expectancy</div>
               <div className="hero-stat-vals">
-                <span className="stat-value text-india">70.8</span> <span className="stat-note">vs</span> <span className="stat-value text-taiwan">80.9</span>
+                <span className="stat-value text-india">72.4</span> <span className="stat-note">vs</span> <span className="stat-value text-taiwan">80.77</span>
                 <span className="stat-note" style={{marginLeft:'4px'}}>yrs</span>
               </div>
             </motion.div>
@@ -393,13 +393,13 @@ function App() {
               <div style={{display:'flex', flexDirection:'column', gap:'1.5rem'}}>
                 <div className="stat-box">
                   <span className="stat-label">Life Expectancy</span>
-                  <motion.span className="stat-value text-india">70.8 yrs</motion.span>
+                  <motion.span className="stat-value text-india">72.4 yrs</motion.span>
                   <AnimatedBar percentage={65} colorClass="bg-india" />
                   <span className="stat-note">Improved from 63 in 2000 — significant but still lagging</span>
                 </div>
                 <div className="stat-box">
                   <span className="stat-label">Infant Mortality</span>
-                  <motion.span className="stat-value text-india">28.3</motion.span>
+                  <motion.span className="stat-value text-india">24.5</motion.span>
                   <AnimatedBar percentage={78} colorClass="bg-india" />
                   <span className="stat-note">Rural infant mortality can exceed 40 in some states</span>
                 </div>
@@ -428,13 +428,13 @@ function App() {
               <div style={{display:'flex', flexDirection:'column', gap:'1.5rem'}}>
                 <div className="stat-box">
                   <span className="stat-label">Life Expectancy</span>
-                  <motion.span className="stat-value text-taiwan">80.9 yrs</motion.span>
+                  <motion.span className="stat-value text-taiwan">80.77 yrs</motion.span>
                   <AnimatedBar percentage={90} colorClass="bg-taiwan" />
                   <span className="stat-note">Comparable to Western Europe — achieved at far lower cost</span>
                 </div>
                 <div className="stat-box">
                   <span className="stat-label">Infant Mortality</span>
-                  <motion.span className="stat-value text-taiwan">4.1</motion.span>
+                  <motion.span className="stat-value text-taiwan">3.16</motion.span>
                   <AnimatedBar percentage={18} colorClass="bg-taiwan" />
                   <span className="stat-note">One of the lowest in Asia — reflects strong maternal care access</span>
                 </div>
@@ -528,7 +528,7 @@ function App() {
              <div className="glass-card india-glow">
                 <p className="stat-label" style={{marginBottom: '1rem'}}>Life Expectancy (Years)</p>
                 <div style={{ height: '220px' }}>
-                  <Bar data={{ labels: ['India', 'Taiwan'], datasets: [{ data: [70.8, 80.9], backgroundColor: ['#FF5A5F', '#00E5FF'], borderRadius: 4, hoverBackgroundColor: ['#FF797D', '#33EFFF'] }] }} options={commonChartOptions} />
+                  <Bar data={{ labels: ['India', 'Taiwan'], datasets: [{ data: [72.4, 80.77], backgroundColor: ['#FF5A5F', '#00E5FF'], borderRadius: 4, hoverBackgroundColor: ['#FF797D', '#33EFFF'] }] }} options={commonChartOptions} />
                 </div>
              </div>
            </Reveal>
@@ -536,7 +536,7 @@ function App() {
              <div className="glass-card taiwan-glow">
                 <p className="stat-label" style={{marginBottom: '1rem'}}>Infant Mortality (per 1,000 births)</p>
                 <div style={{ height: '220px' }}>
-                  <Bar data={{ labels: ['India', 'Taiwan'], datasets: [{ data: [28.3, 4.1], backgroundColor: ['#FF5A5F', '#00E5FF'], borderRadius: 4, hoverBackgroundColor: ['#FF797D', '#33EFFF'] }] }} options={commonChartOptions} />
+                  <Bar data={{ labels: ['India', 'Taiwan'], datasets: [{ data: [24.5, 3.16], backgroundColor: ['#FF5A5F', '#00E5FF'], borderRadius: 4, hoverBackgroundColor: ['#FF797D', '#33EFFF'] }] }} options={commonChartOptions} />
                 </div>
              </div>
            </Reveal>
@@ -686,7 +686,7 @@ function App() {
                 <div style={{minHeight: '110px'}}>
                   <p className="stat-note" style={{marginBottom: '1.5rem'}}>Fragmented, largely paper-based in rural tiers. Ayushman Bharat Digital Mission (ABHA) is partially rolled out, but interoperability remains a massive bottleneck between private and public silos.</p>
                 </div>
-                <div style={{display:'flex', flexDirection:'column', gap:'0.8rem'}}>
+                <div style={{display:'flex', flexDirection:'column', gap:'0.8rem', flex: 1, justifyContent: 'space-between'}}>
                   <div className="flow-node india">Patient visits facility <strong style={{float:'right', fontSize:'0.7rem'}}>Paper-based</strong></div>
                   <div className="flow-node india">ABHA digital ID created <strong style={{float:'right', fontSize:'0.7rem'}}>Partial rollout</strong></div>
                   <div className="flow-node india">Records not shared <strong style={{float:'right', fontSize:'0.7rem'}}>Silos</strong></div>
@@ -705,7 +705,7 @@ function App() {
                 <div style={{minHeight: '110px'}}>
                   <p className="stat-note" style={{marginBottom: '1.5rem'}}>Integrated and smooth. The NHI IC smart card provides universal, real-time medical history loading and syncs claims automatically to the NHIA. Used globally as a model for proactive tracking.</p>
                 </div>
-                <div style={{display:'flex', flexDirection:'column', gap:'0.8rem'}}>
+                <div style={{display:'flex', flexDirection:'column', gap:'0.8rem', flex: 1, justifyContent: 'space-between'}}>
                   <div className="flow-node taiwan">Patient presents NHI IC card <strong style={{float:'right', fontSize:'0.7rem'}}>Universal</strong></div>
                   <div className="flow-node taiwan">Full medical history loaded <strong style={{float:'right', fontSize:'0.7rem'}}>Real-time</strong></div>
                   <div className="flow-node taiwan">Treatment recorded to EHR <strong style={{float:'right', fontSize:'0.7rem'}}>Live sync</strong></div>
