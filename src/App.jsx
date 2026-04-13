@@ -477,7 +477,7 @@ function App() {
                 <tr>
                   <td className="bench-param">Hospital beds / 1k pop</td>
                   <td><div className="text-india bench-cell-val">1.3 beds</div><div className="stat-note">Severe shortfall; concentrated in cities</div></td>
-                  <td><div className="text-taiwan bench-cell-val">6.8 beds <span className="badge-winner taiwan">Winner</span></div><div className="stat-note">Well-distributed across all care tiers</div></td>
+                  <td><div className="text-taiwan bench-cell-val">7.3 beds <span className="badge-winner taiwan">Winner</span></div><div className="stat-note">Well-distributed across all care tiers</div></td>
                 </tr>
                 <tr>
                   <td className="bench-param">Doctors / 1k pop</td>
@@ -486,8 +486,8 @@ function App() {
                 </tr>
                 <tr>
                   <td className="bench-param">Health spend (% GDP)</td>
-                  <td><div className="text-india bench-cell-val">~3.0%</div><div className="stat-note">Gov share is only ~1.5%</div></td>
-                  <td><div className="text-taiwan bench-cell-val">~6.8% <span className="badge-winner taiwan">Winner</span></div><div className="stat-note">Lower admin overhead via single-payer</div></td>
+                  <td><div className="text-india bench-cell-val">~3.8%</div><div className="stat-note">Gov share is only ~1.5%</div></td>
+                  <td><div className="text-taiwan bench-cell-val">~7.8% <span className="badge-winner taiwan">Winner</span></div><div className="stat-note">Lower admin overhead via single-payer</div></td>
                 </tr>
                 <tr>
                   <td className="bench-param">Maternal mort. (100k)</td>
@@ -544,7 +544,7 @@ function App() {
              <div className="glass-card india-glow">
                 <p className="stat-label" style={{marginBottom: '1rem'}}>Hospital Beds per 1,000</p>
                 <div style={{ height: '220px' }}>
-                  <Bar data={{ labels: ['India', 'Taiwan'], datasets: [{ data: [1.3, 6.8], backgroundColor: ['#FF5A5F', '#00E5FF'], borderRadius: 4, hoverBackgroundColor: ['#FF797D', '#33EFFF'] }] }} options={commonChartOptions} />
+                  <Bar data={{ labels: ['India', 'Taiwan'], datasets: [{ data: [1.3, 7.3], backgroundColor: ['#FF5A5F', '#00E5FF'], borderRadius: 4, hoverBackgroundColor: ['#FF797D', '#33EFFF'] }] }} options={commonChartOptions} />
                 </div>
              </div>
            </Reveal>
@@ -552,7 +552,7 @@ function App() {
              <div className="glass-card taiwan-glow">
                 <p className="stat-label" style={{marginBottom: '1rem'}}>Health Spend (% of GDP)</p>
                 <div style={{ height: '220px' }}>
-                  <Bar data={{ labels: ['India', 'Taiwan'], datasets: [{ data: [3.0, 6.8], backgroundColor: ['#FF5A5F', '#00E5FF'], borderRadius: 4, hoverBackgroundColor: ['#FF797D', '#33EFFF'] }] }} options={commonChartOptions} />
+                  <Bar data={{ labels: ['India', 'Taiwan'], datasets: [{ data: [3.8, 7.8], backgroundColor: ['#FF5A5F', '#00E5FF'], borderRadius: 4, hoverBackgroundColor: ['#FF797D', '#33EFFF'] }] }} options={commonChartOptions} />
                 </div>
              </div>
            </Reveal>
@@ -681,9 +681,11 @@ function App() {
          
          <div className="grid-2">
             <Reveal delay={0.2}>
-              <div className="glass-card india-glow">
+              <div className="glass-card india-glow" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <h3 style={{marginBottom: '1rem'}}>🇮🇳 India Pipeline</h3>
-                <p className="stat-note" style={{marginBottom: '1.5rem'}}>Fragmented, largely paper-based in rural tiers. Ayushman Bharat Digital Mission (ABHA) is partially rolled out, but interoperability remains a massive bottleneck between private and public silos.</p>
+                <div style={{minHeight: '110px'}}>
+                  <p className="stat-note" style={{marginBottom: '1.5rem'}}>Fragmented, largely paper-based in rural tiers. Ayushman Bharat Digital Mission (ABHA) is partially rolled out, but interoperability remains a massive bottleneck between private and public silos.</p>
+                </div>
                 <div style={{display:'flex', flexDirection:'column', gap:'0.8rem'}}>
                   <div className="flow-node india">Patient visits facility <strong style={{float:'right', fontSize:'0.7rem'}}>Paper-based</strong></div>
                   <div className="flow-node india">ABHA digital ID created <strong style={{float:'right', fontSize:'0.7rem'}}>Partial rollout</strong></div>
@@ -691,16 +693,18 @@ function App() {
                   <div className="flow-node india">Claims submitted manually <strong style={{float:'right', fontSize:'0.7rem'}}>Slow</strong></div>
                   <div className="flow-node india">No national EHR sync <strong style={{float:'right', fontSize:'0.7rem'}}>Bottleneck</strong></div>
                 </div>
-                <div style={{marginTop: '1.5rem'}}>
+                <div style={{marginTop: 'auto', paddingTop: '1.5rem'}}>
                   <strong style={{color:'var(--text)', fontSize:'0.75rem', textTransform: 'uppercase', letterSpacing:'0.1em'}}>End Result</strong>
                   <div style={{fontSize: '0.9rem', color: 'var(--text2)', marginTop: '0.3rem'}}>Slow, inefficient, and disconnected care.</div>
                 </div>
               </div>
             </Reveal>
             <Reveal delay={0.3}>
-              <div className="glass-card taiwan-glow">
+              <div className="glass-card taiwan-glow" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <h3 style={{marginBottom: '1rem'}}>🇹🇼 Taiwan Pipeline</h3>
-                <p className="stat-note" style={{marginBottom: '1.5rem'}}>Integrated and smooth. The NHI IC smart card provides universal, real-time medical history loading and syncs claims automatically to the NHIA. Used globally as a model for proactive tracking.</p>
+                <div style={{minHeight: '110px'}}>
+                  <p className="stat-note" style={{marginBottom: '1.5rem'}}>Integrated and smooth. The NHI IC smart card provides universal, real-time medical history loading and syncs claims automatically to the NHIA. Used globally as a model for proactive tracking.</p>
+                </div>
                 <div style={{display:'flex', flexDirection:'column', gap:'0.8rem'}}>
                   <div className="flow-node taiwan">Patient presents NHI IC card <strong style={{float:'right', fontSize:'0.7rem'}}>Universal</strong></div>
                   <div className="flow-node taiwan">Full medical history loaded <strong style={{float:'right', fontSize:'0.7rem'}}>Real-time</strong></div>
@@ -708,7 +712,7 @@ function App() {
                   <div className="flow-node taiwan">Claim auto-submitted <strong style={{float:'right', fontSize:'0.7rem'}}>Automated</strong></div>
                   <div className="flow-node taiwan">Payment processed instantly <strong style={{float:'right', fontSize:'0.7rem'}}>Fast</strong></div>
                 </div>
-                <div style={{marginTop: '1.5rem'}}>
+                <div style={{marginTop: 'auto', paddingTop: '1.5rem'}}>
                   <strong style={{color:'var(--text)', fontSize:'0.75rem', textTransform: 'uppercase', letterSpacing:'0.1em'}}>End Result</strong>
                   <div style={{fontSize: '0.9rem', color: 'var(--text2)', marginTop: '0.3rem'}}>Fast, seamless, and deeply data-driven care.</div>
                 </div>
